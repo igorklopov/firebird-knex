@@ -28,5 +28,8 @@
   },
   "devDependencies": {
     "babel": "^5.2.17"
+  },
+  "peerDependencies": {
+    "knex": "^0.11.7"
   }
 }
