@@ -1,5 +1,5 @@
 {
-  "name": "knex-firebird-klopov",
+  "name": "firebird-knex",
   "version": "0.0.1",
   "description": "Knex dialect for FirebirdSQL RDBMS",
   "main": "lib/index.js",
