@@ -1,0 +1,33 @@
+{
+  "name": "knex-firebird",
+  "version": "0.0.1",
+  "description": "Knex dialect for FirebirdSQL RDBMS",
+  "main": "lib/index.js",
+  "scripts": {
+    "babel": "babel -L -D src/ --out-dir lib/ --source-maps=inline"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/igorklopov/knex-firebird.git"
+  },
+  "keywords": [
+    "node",
+    "firebird",
+    "sql",
+    "knex",
+    "orm"
+  ],
+  "author": "Igor Klopov",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/igorklopov/knex-firebird/issues"
+  },
+  "homepage": "https://github.com/igorklopov/knex-firebird#readme",
+  "dependencies": {
+    "bluebird": "^3.3.4",
+    "node-firebird": "^0.7.4"
+  },
+  "devDependencies": {
+    "babel": "^5.2.17"
+  }
+}
