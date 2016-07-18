@@ -1,7 +1,8 @@
-import Promise from '../../promise';
-import Transaction from '../../transaction';
+import { Client, Promise } from 'knex';
 import { assign } from 'lodash';
 import inherits from 'inherits';
+
+const Transaction = Client.prototype.Transaction;
 
 function Transaction_Firebird() {
   Transaction.apply(this, arguments);

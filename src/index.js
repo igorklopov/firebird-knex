@@ -1,6 +1,5 @@
-import Client from '../../client';
+import { Client, Promise } from 'knex';
 import ColumnCompiler from './schema/columncompiler';
-import Promise from '../../promise';
 import TableCompiler from './schema/tablecompiler';
 import Transaction from './transaction';
 import assert from 'assert';
@@ -72,5 +71,7 @@ assign(Client_Firebird.prototype, {
   }
 
 });
+
+Client_Firebird.dialect = 'firebird';
 
 export default Client_Firebird;
