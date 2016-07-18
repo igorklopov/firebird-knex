@@ -24,7 +24,7 @@
   },
   "homepage": "https://github.com/igorklopov/knex-firebird#readme",
   "dependencies": {
-    "node-firebird": "^0.7.4"
+    "node-firebird": "https://github.com/igorklopov/node-firebird"
   },
   "devDependencies": {
     "babel": "^5.2.17"

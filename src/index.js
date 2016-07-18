@@ -1,5 +1,6 @@
 import { Client, Promise } from 'knex';
 import ColumnCompiler from './schema/columncompiler';
+import QueryCompiler from './query/compiler';
 import TableCompiler from './schema/tablecompiler';
 import Transaction from './transaction';
 import assert from 'assert';
@@ -20,6 +21,8 @@ assign(Client_Firebird.prototype, {
   _driver() {
     return require('node-firebird');
   },
+
+  QueryCompiler,
 
   TableCompiler,
 
