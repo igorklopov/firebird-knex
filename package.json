@@ -1,6 +1,6 @@
 {
   "name": "firebird-knex",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "description": "Knex dialect for FirebirdSQL RDBMS",
   "main": "lib/index.js",
   "scripts": {
