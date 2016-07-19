@@ -8,7 +8,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/igorklopov/knex-firebird.git"
+    "url": "git+https://github.com/igorklopov/firebird-knex.git"
   },
   "keywords": [
     "node",
@@ -20,9 +20,9 @@
   "author": "Igor Klopov",
   "license": "ISC",
   "bugs": {
-    "url": "https://github.com/igorklopov/knex-firebird/issues"
+    "url": "https://github.com/igorklopov/firebird-knex/issues"
   },
-  "homepage": "https://github.com/igorklopov/knex-firebird#readme",
+  "homepage": "https://github.com/igorklopov/firebird-knex#readme",
   "dependencies": {
     "node-firebird": "https://github.com/igorklopov/node-firebird"
   },
