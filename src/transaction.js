@@ -22,7 +22,7 @@ assign(Transaction_Firebird.prototype, {
   },
 
   savepoint() {
-    throw new Error("savepoints not implemented");
+    throw new Error('savepoints not implemented');
   },
 
   commit(conn, value) {
@@ -38,7 +38,7 @@ assign(Transaction_Firebird.prototype, {
   },
 
   release() {
-    throw new Error("releasing savepoints not implemented");
+    throw new Error('releasing savepoints not implemented');
   },
 
   rollback(conn, value) {
@@ -54,7 +54,7 @@ assign(Transaction_Firebird.prototype, {
   },
 
   rollbackTo() {
-    throw new Error("rolling back to savepoints not implemented");
+    throw new Error('rolling back to savepoints not implemented');
   }
 
 });

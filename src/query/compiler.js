@@ -15,7 +15,7 @@ assign(QueryCompiler_Firebird.prototype, {
     const newValues = {};
     for (const key in insertValues) {
       const value = insertValues[key];
-      if (typeof value !== "undefined") {
+      if (typeof value !== 'undefined') {
         newValues[key] = value;
       }
     }

@@ -12,7 +12,7 @@ inherits(TableCompiler_Firebird, TableCompiler);
 assign(TableCompiler_Firebird.prototype, {
 
   createQuery(columns, ifNot) {
-    if (ifNot) throw new Error("createQuery ifNot not implemented");
+    if (ifNot) throw new Error('createQuery ifNot not implemented');
     const createStatement = 'create table ';
     let sql = createStatement + this.tableName() + ' (' + columns.sql.join(', ') + ')';
     this.pushQuery(sql);

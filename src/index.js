@@ -45,7 +45,7 @@ assign(Client_Firebird.prototype, {
   },
 
   _stream() {
-    throw new Error("_stream not implemented");
+    throw new Error('_stream not implemented');
   },
 
   _query(connection, obj) {
