@@ -62,10 +62,29 @@ assign(Client_Firebird.prototype, {
     });
   },
 
+  _fixBufferStrings(rows, fields) {
+    if (!rows) return rows;
+    for (const row of rows) {
+      for (const cell in row) {
+        const value = row[cell];
+        if (Buffer.isBuffer(value)) {
+          for (const field of fields) {
+            if (field.alias === cell &&
+                field.type === 448) { // SQLVarString
+              row[cell] = value.toString();
+              break;
+            }
+          }
+        }
+      }
+    }
+  },
+
   processResponse(obj) {
     if (!obj) return;
     const { response } = obj;
-    const rows = response[0];
+    const [ rows, fields ] = response;
+    this._fixBufferStrings(rows, fields);
     return rows;
   },
 
