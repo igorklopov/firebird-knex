@@ -1,8 +1,6 @@
-import { Client } from 'knex';
 import { assign } from 'lodash';
 import inherits from 'inherits';
-
-const QueryCompiler = Client.prototype.QueryCompiler;
+import QueryCompiler from "knex/lib/query/compiler";
 
 function QueryCompiler_Firebird(client, builder) {
   QueryCompiler.call(this, client, builder);

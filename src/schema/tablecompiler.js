@@ -1,8 +1,6 @@
-import { Client } from 'knex';
 import { assign } from 'lodash';
 import inherits from 'inherits';
-
-const TableCompiler = Client.prototype.TableCompiler;
+import TableCompiler from 'knex/lib/schema/tablecompiler';
 
 function TableCompiler_Firebird() {
   TableCompiler.apply(this, arguments);

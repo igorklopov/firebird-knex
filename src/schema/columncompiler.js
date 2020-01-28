@@ -1,8 +1,6 @@
-import { Client } from 'knex';
 import { assign } from 'lodash';
 import inherits from 'inherits';
-
-const ColumnCompiler = Client.prototype.ColumnCompiler;
+import ColumnCompiler from 'knex/lib/schema/columncompiler';
 
 function ColumnCompiler_Firebird() {
   ColumnCompiler.apply(this, arguments);

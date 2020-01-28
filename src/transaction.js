@@ -1,9 +1,9 @@
-import { Client, Promise } from 'knex';
 import { assign } from 'lodash';
 import inherits from 'inherits';
 
 const debug = require('debug')('knex:tx');
-const Transaction = Client.prototype.Transaction;
+import Transaction from 'knex/lib/transaction';
+
 
 function Transaction_Firebird() {
   Transaction.apply(this, arguments);

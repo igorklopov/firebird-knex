@@ -1,4 +1,4 @@
-import { Client, Promise } from 'knex';
+import { Client } from 'knex';
 import ColumnCompiler from './schema/columncompiler';
 import QueryCompiler from './query/compiler';
 import TableCompiler from './schema/tablecompiler';
