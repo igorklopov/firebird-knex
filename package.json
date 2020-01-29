@@ -28,6 +28,8 @@
     "inherits": "~2.0.1",
     "lodash": "^4.6.0",
     "node-firebird": "^0.8.9"
+    
+
   },
   "devDependencies": {
     "babel": "^5.2.17"

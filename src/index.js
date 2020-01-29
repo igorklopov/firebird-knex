@@ -4,7 +4,6 @@ import QueryCompiler from './query/compiler';
 import TableCompiler from './schema/tablecompiler';
 import Transaction from './transaction';
 import assert from 'assert';
-import { assign } from 'lodash';
 import inherits from 'inherits';
 
 function Client_Firebird(config) {
@@ -12,7 +11,8 @@ function Client_Firebird(config) {
 }
 inherits(Client_Firebird, Client);
 
-assign(Client_Firebird.prototype, {
+
+Object.assign(Client_Firebird.prototype, {
 
   dialect: 'firebird',
 
@@ -24,7 +24,9 @@ assign(Client_Firebird.prototype, {
 
   QueryCompiler,
 
-  TableCompiler,
+  tableCompiler() {
+    return new TableCompiler(this, ...arguments);
+  },
 
   ColumnCompiler,
 
@@ -93,6 +95,7 @@ assign(Client_Firebird.prototype, {
   }
 
 });
+
 
 Client_Firebird.dialect = 'firebird';
 

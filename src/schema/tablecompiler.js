@@ -1,15 +1,16 @@
-import { assign } from 'lodash';
 import inherits from 'inherits';
 import TableCompiler from 'knex/lib/schema/tablecompiler';
 
-function TableCompiler_Firebird() {
-  TableCompiler.apply(this, arguments);
+function TableCompiler_Firebird() {  
+  TableCompiler.apply(this, arguments);  
 }
+
 inherits(TableCompiler_Firebird, TableCompiler);
 
-assign(TableCompiler_Firebird.prototype, {
 
-  createQuery(columns, ifNot) {
+Object.assign(TableCompiler_Firebird.prototype, {
+
+  createQuery(columns, ifNot){
     if (ifNot) throw new Error('createQuery ifNot not implemented');
     const createStatement = 'create table ';
     let sql = createStatement + this.tableName() + ' (' + columns.sql.join(', ') + ')';
