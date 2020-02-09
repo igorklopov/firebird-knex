@@ -1,16 +1,14 @@
-import { Client, Promise } from 'knex';
-import { assign } from 'lodash';
 import inherits from 'inherits';
-
 const debug = require('debug')('knex:tx');
-const Transaction = Client.prototype.Transaction;
+import Transaction from 'knex/lib/transaction';
 
-function Transaction_Firebird() {
+
+function Transaction_Firebird () {
   Transaction.apply(this, arguments);
 }
 inherits(Transaction_Firebird, Transaction);
 
-assign(Transaction_Firebird.prototype, {
+Object.assign(Transaction_Firebird.prototype, {
 
   begin(conn) {
     return new Promise((resolve, reject) => {
@@ -21,6 +19,8 @@ assign(Transaction_Firebird.prototype, {
       });
     });
   },
+
+  
 
   savepoint() {
     throw new Error('savepoints not implemented');
