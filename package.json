@@ -6,7 +6,7 @@
   "scripts": {
     "babel": "babel -L -D src/ --out-dir lib/ --source-maps=inline",
     "test": "npm run babel && node test",
-    "postinstall": "npm run babel",
+    "postinstall": "npm i && npm run babel",
     "prepublishOnly": "npm run babel"
   },
   "repository": {
