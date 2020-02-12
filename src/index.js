@@ -37,10 +37,7 @@ Object.assign(Client_Firebird.prototype, {
   schemaCompiler() {
     return new SchemaCompiler(this, ...arguments);
   },
-
-  queryCompiler() {
-    return new QueryCompiler(this, ...arguments);
-  },
+  QueryCompiler,  
 
   columnCompiler() {
     return new ColumnCompiler(this, ...arguments);
