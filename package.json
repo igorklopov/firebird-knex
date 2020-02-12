@@ -5,8 +5,7 @@
   "main": "lib/index.js",
   "scripts": {
     "babel": "babel -L -D src/ --out-dir lib/ --source-maps=inline",
-    "test": "npm run babel && node test",
-    "postinstall": "npm i && npm run babel",
+    "test": "npm run babel && node test",    
     "prepublishOnly": "npm run babel"
   },
   "repository": {
