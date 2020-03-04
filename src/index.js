@@ -37,7 +37,7 @@ Object.assign(Client_Firebird.prototype, {
   schemaCompiler() {
     return new SchemaCompiler(this, ...arguments);
   },
-  QueryCompiler,  
+  QueryCompiler,
 
   columnCompiler() {
     return new ColumnCompiler(this, ...arguments);
@@ -48,12 +48,17 @@ Object.assign(Client_Firebird.prototype, {
   },
   Transaction,
 
-  // ddl(compiler, pragma, connection) {
-  //   return new SQLite3_DDL(this, compiler, pragma, connection);
-  // },
-
   wrapIdentifierImpl(value) {
-    return value !== '*' ? `\`${value.replace(/`/g, '``')}\`` : '*';
+    
+    if (value === '*') return value;   
+
+
+    if (!/^[A-Za-z0-9_]+$/.test(value)) {
+      //Dialect 1 of firebird doesn't support special characters
+      //Backquotes only available on dialect 3
+      throw new Error(`Invalid identifier: "${value}"; Dialect 1 doesn't support special characters.`);
+    }
+    return value;
   },
 
 
@@ -87,14 +92,14 @@ Object.assign(Client_Firebird.prototype, {
       };
 
       let { sql } = obj;
-      sql = sql.split("`").join('"');      
+      console.log('SQL', sql);
       if (!sql) return resolver();
       const c = connection._trasaction || connection;
       c.query(sql, obj.bindings, (error, rows, fields) => {
         if (error) return rejecter(error);
         obj.response = [rows, fields];
         resolver(obj);
-      });      
+      });
     });
   },
 
@@ -121,10 +126,10 @@ Object.assign(Client_Firebird.prototype, {
   processResponse(obj, runner) {
     if (!obj) return;
     let { response } = obj;
-    
+
     const [rows, fields] = response;
     this._fixBufferStrings(rows, fields);
-    return rows;
+    return this._fixBlobCallbacks(rows, fields);
   },
 
   _fixBufferStrings(rows, fields) {
@@ -135,14 +140,56 @@ Object.assign(Client_Firebird.prototype, {
         if (Buffer.isBuffer(value)) {
           for (const field of fields) {
             if (field.alias === cell &&
-              field.type === 448) { // SQLVarString
-              row[cell] = value.toString();
+              (field.type === 448 || field.type === 452)) { // SQLVarString
+              row[cell] = value.toString('latin1');
               break;
             }
           }
         }
       }
     }
+  },
+  /**   
+  * The Firebird library returns BLOLs with callback functions; Those need to be loaded asynchronously
+  * @param {*} rows 
+  * @param {*} fields 
+  */
+  _fixBlobCallbacks(rows, fields) {
+    if (!rows) return rows;
+
+    const blobEntries = [];
+
+    // Seek and verify if there is any BLOB
+    for (const row of rows) {
+      for (const cell in row) {
+        const value = row[cell];
+
+        // ATSTODO: Está presumindo que o blob é texto; recomenda-se diferenciar texto de binário. Talvez o "fields" ajude?
+        // Is it a callback BLOB?
+        if (value instanceof Function) {
+          blobEntries.push(new Promise((resolve, reject) => {
+            value((err, name, stream) => {
+              if (err) {
+                reject(err);
+                return;
+              }
+
+              // ATSTODO: Ver como fazer quando o string não tiver o "setEncoding()"
+              if (!stream['setEncoding']) {
+                stream['setEncoding'] = () => undefined;
+              }
+
+              // ATSTODO: Não está convertendo os cadacteres acentuados corretamente, mesmo informando a codificação
+              resolve(readableToString(stream, 'latin1').then(blobString => {
+                row[cell] = blobString;
+              }));
+            });
+          }));
+        }
+      }
+    }
+    // Returns a Promise that wait BLOBs be loaded and retuns it
+    return Promise.all(blobEntries).then(() => rows);
   },
 
   poolDefaults() {
@@ -155,6 +202,9 @@ Object.assign(Client_Firebird.prototype, {
   ping(resource, callback) {
     resource.query('select 1 from RDB$DATABASE', callback);
   },
+  // ddl(compiler, pragma, connection) {
+  //   return new SQLite3_DDL(this, compiler, pragma, connection);
+  // },
 
 
   // formatter() {
