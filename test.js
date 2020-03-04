@@ -39,7 +39,7 @@ knexConn.schema.createTable('users', function(table) {
 .then(function() {
   return knexConn('users')
     .join('accounts', 'users.id', 'accounts.user_id')
-    .select('users.user_name as user', 'accounts.account_name as account');
+    .select('users.user_name as user_name', 'accounts.account_name as account');
 })
 
 // .map over the results

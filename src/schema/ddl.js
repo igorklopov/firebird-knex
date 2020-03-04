@@ -38,7 +38,7 @@ Object.assign(Firebird_DDL.prototype, {
   },
 
   getColumn: async function(column) {
-    const currentCol = find(this.pragma, (col) => {
+    const currentCol = find(this.pragma, (col) => {      
       return (
         this.client.wrapIdentifier(col.name).toLowerCase() ===
         this.client.wrapIdentifier(column).toLowerCase()

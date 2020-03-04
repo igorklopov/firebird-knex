@@ -140,7 +140,7 @@ Object.assign(Client_Firebird.prototype, {
         if (Buffer.isBuffer(value)) {
           for (const field of fields) {
             if (field.alias === cell &&
-              (field.type === 448 || field.type === 452)) { // SQLVarString
+              (field.type === 448 || field.type === 452)) { // SQLVarString                
               row[cell] = value.toString('latin1');
               break;
             }
@@ -154,7 +154,7 @@ Object.assign(Client_Firebird.prototype, {
   * @param {*} rows 
   * @param {*} fields 
   */
-  _fixBlobCallbacks(rows, fields) {
+  _fixBlobCallbacks(rows, fields) {    
     if (!rows) return rows;
 
     const blobEntries = [];
@@ -162,8 +162,7 @@ Object.assign(Client_Firebird.prototype, {
     // Seek and verify if there is any BLOB
     for (const row of rows) {
       for (const cell in row) {
-        const value = row[cell];
-
+        const value = row[cell];       
         // ATSTODO: Está presumindo que o blob é texto; recomenda-se diferenciar texto de binário. Talvez o "fields" ajude?
         // Is it a callback BLOB?
         if (value instanceof Function) {
