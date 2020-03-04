@@ -202,13 +202,13 @@ Object.assign(Client_Firebird.prototype, {
     resource.query('select 1 from RDB$DATABASE', callback);
   },
   // ddl(compiler, pragma, connection) {
-  //   return new SQLite3_DDL(this, compiler, pragma, connection);
+  //   return new Firebird_DDL(this, compiler, pragma, connection);
   // },
 
 
-  // formatter() {
-  //   return new Firebird_Formatter(this, ...arguments);
-  // },
+  
+  Firebird_Formatter
+  
 });
 
 Client_Firebird.dialect = 'firebird';
