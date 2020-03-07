@@ -126,6 +126,7 @@ Object.assign(Client_Firebird.prototype, {
   processResponse(obj, runner) {
     if (!obj) return;
     let { response } = obj;
+    if (obj.output) return obj.output.call(runner, response);
 
     const [rows, fields] = response;
     this._fixBufferStrings(rows, fields);

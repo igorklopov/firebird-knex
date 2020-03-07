@@ -20,10 +20,10 @@ Object.assign(QueryCompiler_Firebird.prototype, {
     const { limit, offset } = this.single;
     if (!limit && limit !== 0) {
       if (!offset) return [];
-      return [ offset + 1, 1 << 30 ];
+      return [offset + 1, 1 << 30];
     } else {
-      if (!offset) return [ limit ];
-      return [ offset + 1, offset + limit ];
+      if (!offset) return [limit];
+      return [offset + 1, offset + limit];
     }
   },
 
@@ -48,6 +48,55 @@ Object.assign(QueryCompiler_Firebird.prototype, {
       }
     }
     return QueryCompiler.prototype._prepInsert.call(this, newValues);
+  },
+  // Compiles a `columnInfo` query
+  columnInfo() {
+    const column = this.single.columnInfo;
+
+    // The user may have specified a custom wrapIdentifier function in the config. We
+    // need to run the identifiers through that function, but not format them as
+    // identifiers otherwise.
+    const table = this.client.customWrapIdentifier(this.single.table, identity);
+
+    return {
+      sql: `
+      select 
+        rlf.rdb$field_name as name,
+        fld.rdb$character_length as max_length,
+        typ.rdb$type_name as type,
+        rlf.rdb$null_flag as not_null
+      from rdb$relation_fields rlf
+      inner join rdb$fields fld on fld.rdb$field_name = rlf.rdb$field_source
+      inner join rdb$types typ on typ.rdb$type = fld.rdb$field_type
+      where rdb$relation_name = '${table}'
+      `,
+      output(resp) {
+        const [rows, fields] = resp;
+
+        const maxLengthRegex = /.*\((\d+)\)/;
+        const out = reduce(
+          rows,
+          function (columns, val) {
+            const name = val.NAME.trim();
+            columns[name] = {
+              type: val.TYPE.trim().toLowerCase(),
+              nullable: !val.NOT_NULL,
+              // ATSTODO: "defaultValue" não implementado
+              // defaultValue: null,
+            };
+
+            if (val.MAX_LENGTH) {
+              columns[name] = val.MAX_LENGTH;
+            }
+
+            return columns;
+          },
+          {}
+        );
+        console.log('Resultado columnInfo', { out, column });
+        return (column && out[column]) || out;
+      },
+    };
   }
 
 });
