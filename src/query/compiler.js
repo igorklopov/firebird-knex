@@ -97,6 +97,16 @@ Object.assign(QueryCompiler_Firebird.prototype, {
         return (column && out[column]) || out;
       },
     };
+  },
+  whereIn(statement) {
+    // O FB não suporta `in` de tupla para tupla; neste caso, monta um or
+    if (Array.isArray(statement.column)) {
+      const conditions = statement.value.map(valueCols => valueCols.map((value, idx) => {
+        return `${this['formatter'].columnize(statement.column[idx])} = ${this['formatter'].values(value)}`
+      }).join(' and '));
+      return `( ${conditions.join('\n or ')} )`;
+    }
+    return super.whereIn(statement);
   }
 
 });
